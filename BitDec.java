@@ -2,87 +2,34 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BitDec {
-    // Main Menu
-    public static final int BIN_TO_DEC = 1;
-    public static final int DEC_TO_BIN = 2;
-    public static final int BIN_TO_HEX = 3;
-    public static final int EXIT_PROGRAM = 4;
+    // Main Menu Options
+    private static final int BIN_TO_DEC = 1;
+    private static final int DEC_TO_BIN = 2;
+    private static final int BIN_TO_HEX = 3;
+    private static final int EXIT_PROGRAM = 4;
 
-    public static final int RETURN_PROGRAM = 2;
-
-    // binToDec
-    public static final int TRANSFORM_BIN = 1;
-
-    // decToBin
-    public static final int TRANSFORM_DEC = 1;
-
-    // binToHex
-    public static final int TRANSFORM_HEX = 1;
+    // Submenu Options
+    private static final int TRANSFORM_OPTION = 1;
+    private static final int RETURN_OPTION = 2;
 
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
 
         while (true) {
             Interfacer.mainMenu();
-
             int choice = getValidIntInput(in);
 
             switch (choice) {
                 case BIN_TO_DEC:
-                    Interfacer.binToDec();
-                    int binChoice = getValidIntInput(in);
-
-                    switch (binChoice) {
-                        case TRANSFORM_BIN:
-                            System.out.println("Input a binary number: ");
-                            String binInput = in.next();
-                            int decResult = Converter.binConverter(binInput);
-                            System.out.println("Decimal value: " + decResult);
-                            break;
-                        case RETURN_PROGRAM:
-                            break;
-                        default:
-                            System.out.println("Invalid option. Please enter a correct number.");
-                            break;
-                    }
+                    handleBinToDec(in);
                     break;
 
                 case DEC_TO_BIN:
-                    Interfacer.decToBin();
-                    int decChoice = getValidIntInput(in);
-
-                    switch (decChoice) {
-                        case TRANSFORM_DEC:
-                            System.out.println("Input a decimal number: ");
-                            int decInput = getValidIntInput(in);
-                            String binResult = Converter.decConverter(decInput);
-                            System.out.println("Binary value: " + binResult);
-                            break;
-                        case RETURN_PROGRAM:
-                            break;
-                        default:
-                            System.out.println("Invalid option. Please enter a correct number.");
-                            break;
-                    }
+                    handleDecToBin(in);
                     break;
 
                 case BIN_TO_HEX:
-                    Interfacer.binToHex();
-                    int binHexChoice = getValidIntInput(in);
-
-                    switch (binHexChoice) {
-                        case TRANSFORM_HEX:
-                            System.out.println("Input a binary number: ");
-                            String binHexInput = in.next();
-                            String hexResult = Converter.hexConverter(binHexInput);
-                            System.out.println("Hexadecimal value: " + hexResult);
-                            break;
-                        case RETURN_PROGRAM:
-                            break;
-                        default:
-                            System.out.println("Invalid option. Please enter a correct number.");
-                            break;
-                    }
+                    handleBinToHex(in);
                     break;
 
                 case EXIT_PROGRAM:
@@ -93,6 +40,77 @@ public class BitDec {
                     System.out.println("Invalid option. Please enter a correct number.");
                     break;
             }
+        }
+    }
+
+    private static void handleBinToDec(Scanner in) {
+        Interfacer.binToDec();
+        int binChoice = getValidIntInput(in);
+
+        switch (binChoice) {
+            case TRANSFORM_OPTION:
+                System.out.println("Input a binary number: ");
+                String binInput = in.next();
+                try {
+                    int decResult = Converter.binToDec(binInput);
+                    System.out.println("Decimal value: " + decResult);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid binary number. Please try again.");
+                }
+                break;
+
+            case RETURN_OPTION:
+                break;
+
+            default:
+                System.out.println("Invalid option. Please enter a correct number.");
+                break;
+        }
+    }
+
+    private static void handleDecToBin(Scanner in) {
+        Interfacer.decToBin();
+        int decChoice = getValidIntInput(in);
+
+        switch (decChoice) {
+            case TRANSFORM_OPTION:
+                System.out.println("Input a decimal number: ");
+                int decInput = getValidIntInput(in);
+                String binResult = Converter.decToBin(decInput);
+                System.out.println("Binary value: " + binResult);
+                break;
+
+            case RETURN_OPTION:
+                break;
+
+            default:
+                System.out.println("Invalid option. Please enter a correct number.");
+                break;
+        }
+    }
+
+    private static void handleBinToHex(Scanner in) {
+        Interfacer.binToHex();
+        int binHexChoice = getValidIntInput(in);
+
+        switch (binHexChoice) {
+            case TRANSFORM_OPTION:
+                System.out.println("Input a binary number: ");
+                String binHexInput = in.next();
+                try {
+                    String hexResult = Converter.binToHex(binHexInput);
+                    System.out.println("Hexadecimal value: " + hexResult);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid binary number. Please try again.");
+                }
+                break;
+
+            case RETURN_OPTION:
+                break;
+
+            default:
+                System.out.println("Invalid option. Please enter a correct number.");
+                break;
         }
     }
 
